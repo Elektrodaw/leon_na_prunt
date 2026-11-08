@@ -41,6 +41,8 @@ for k = 1:length(t)-1
     wm(k+1)   = 2 * pi * przekladnia_i / (pi * p.d_k) * v_ms(k);
 end
 
+Me(length(t)) = Me(length(t)-1);
+
 s_pos = zeros(1, length(t));
 for k = 2:length(t)
     s_pos(k) = t_step * v_ms(k) + s_pos(k-1);
@@ -68,4 +70,38 @@ J_vmax = (p.voptmax - v_max)^2;
 J_bat  = (bateria - E_p)^2; 
 
 J_total = J_100 + (J_14 / 3) + (J_vmax / 20) + (J_bat / 10) + (Pn / 100000 / 1);
+
+
+%% WIZUALIZACJA W CZASIE RZECZYWISTYM
+
+figure(5); 
+v_kmh = v_ms * 3.6;
+
+% Wykres Prędkości
+subplot(3, 1, 1);
+p1 = plot(t, v_kmh, 'b', [t(1) t(end)], [100 100], 'r'); %[cite: 26]
+ylabel('v / km/h'); grid on; axis tight;
+wynik = sprintf('m_1=%0.0f kg, m_2=%0.0f kg, m_3=%0.0f kg, bat=%0.0f kg', m1, m2, p.m3, m4_bat);
+title(wynik);
+set(p1, 'LineWidth', 1.5);
+
+% Wykres Przebytej Drogi
+subplot(3, 1, 2);
+p2 = plot(t, s_pos, 'b', [t(1) t(end)], [402.5 402.5], 'r'); %[cite: 26]
+ylabel('s_{pos} / m'); grid on; axis tight;
+wynik = sprintf('t_{100}=%0.2f s, t_{1/4}=%0.2f s, v_{max}=%0.1f km/h', t100, t14, v_max*3.6);
+title(wynik);
+set(p2, 'LineWidth', 1.5);
+
+% Wykres Momentu obrotowego i Mocy
+subplot(3, 1, 3);
+p3 = plot(t, Me, 'b', t, Me.*wm/1000, 'r'); 
+ylabel('M_e / Nm   P_N / kW'); xlabel('t / s'); grid on; axis tight;
+wynik = sprintf('Pn=%0.1f kW, M_{max}=%0.0f Nm, i=%0.2f, Bateria=%0.1f kWh', Pn/1000, Mmax, przekladnia_i, bateria);
+title(wynik);
+set(p3, 'LineWidth', 1.5);
+
+% Wymuszenie odświeżenia grafiki w pętli optymalizacyjnej
+drawnow; 
+
 end
