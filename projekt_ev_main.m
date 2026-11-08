@@ -84,7 +84,7 @@ fprintf('Czas przyspieszenia 0-100 km/h: %.2f s\n', t100_opt);
 fprintf('Czas wyścigu na 1/4 mili: %.2f s\n', t14_opt);
 
 %%  WYLICZENIE ZASIĘGU DLA 120 km/h ORAZ 100 km/h
-P_aux = p.P_aux_stale + bat_opt*(0.3/10) + (Pn/1000)*(0.5/10); %[cite: 31]
+P_aux = p.P_aux_stale + bat_opt*(0.3/10) + (Pn/1000)*(0.5/10);
 
 oblicz_zasieg = @(v_kmh) ...
     (bat_opt / ...

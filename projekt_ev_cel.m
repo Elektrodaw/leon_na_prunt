@@ -79,7 +79,7 @@ v_kmh = v_ms * 3.6;
 
 % Wykres Prędkości
 subplot(3, 1, 1);
-p1 = plot(t, v_kmh, 'b', [t(1) t(end)], [100 100], 'r'); %[cite: 26]
+p1 = plot(t, v_kmh, 'b', [t(1) t(end)], [100 100], 'r');
 ylabel('v / km/h'); grid on; axis tight;
 wynik = sprintf('m_1=%0.0f kg, m_2=%0.0f kg, m_3=%0.0f kg, bat=%0.0f kg', m1, m2, p.m3, m4_bat);
 title(wynik);
